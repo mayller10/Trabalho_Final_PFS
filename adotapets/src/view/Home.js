@@ -66,7 +66,7 @@ const Home = () => {
 
   const handleLogout = () => {
     console.log("Logout realizado");
-    navigate('/login');
+    navigate('/');
   };
 
   const handleAdotar = (id) => {
@@ -98,8 +98,8 @@ const Home = () => {
           margin: 0, 
           padding: 0 
         }}>
-          <li><a href="/" style={{ textDecoration: 'none', color: 'black', fontWeight: 'bold' }}>Home</a></li>
-          <li><a href="/adotados" style={{ textDecoration: 'none', color: 'black', fontWeight: 'bold' }}>Adotados</a></li>
+          <li><a href="/usuario/home" style={{ textDecoration: 'none', color: 'black', fontWeight: 'bold' }}>Home</a></li>
+          <li><a href="/usuario/adotados" style={{ textDecoration: 'none', color: 'black', fontWeight: 'bold' }}>Adotados</a></li>
           <li>
             <button 
               onClick={handleLogout} 
@@ -117,7 +117,7 @@ const Home = () => {
         </ul>
       </nav>
 
-      {/* Conteúdo Principal */}
+      
       <div style={{
           position: 'relative',
           minHeight: '100vh',

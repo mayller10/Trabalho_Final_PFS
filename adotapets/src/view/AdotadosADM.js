@@ -110,7 +110,7 @@ const Adotados = () => {
         }}>
           <li><a href="/adm/home" style={{ textDecoration: 'none', color: 'black', fontWeight: 'bold' }}>Home</a></li>
           <li><a href="/adm/adotados" style={{ textDecoration: 'none', color: 'black', fontWeight: 'bold' }}>Adotados</a></li>
-          <li><a href="/adm/cadastrar" style={{ textDecoration: 'none', color: 'black', fontWeight: 'bold' }}>Adicionar Pet</a></li> {/* Novo item na navbar */}
+          <li><a href="/adm/cadastrar" style={{ textDecoration: 'none', color: 'black', fontWeight: 'bold' }}>Adicionar Pet</a></li> 
           <li>
             <button 
               onClick={handleLogout} 

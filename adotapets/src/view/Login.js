@@ -21,7 +21,7 @@ const Login = () => {
     
     const logar = (e) => {
         e.preventDefault();
-        axios.post('http://localhost:5146/login', objeto)
+        axios.post('http://localhost:5196/login', objeto)
             .then(res => {
                 sucessoLogin(res.data);
             })

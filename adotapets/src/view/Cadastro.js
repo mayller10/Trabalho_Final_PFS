@@ -9,7 +9,7 @@ const Cadastro = () => {
 
     const cadastrar = (e) => {
         e.preventDefault();
-        axios.post('http://localhost:5146/usuarios/cliente', usuario).then(resp => {
+        axios.post('http://localhost:5196/usuarios/cliente', usuario).then(resp => {
             console.log(resp.data);
             navigate('/');
         });

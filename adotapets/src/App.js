@@ -7,6 +7,7 @@ import AdicionarPet from "./view/AdicionarPet.js";
 import Adotados from "./view/Adotados.js";
 import AdotadosADM from "./view/AdotadosADM.js";
 import HomeADM from "./view/HomeADM.js";
+import EditarPet from "./view/EditarPet.js";
 
 function App() {
   return (
@@ -24,7 +25,7 @@ function App() {
           <Route path="home" element={<HomeADM />} />
           <Route path="adotados" element={<AdotadosADM />} />
           <Route path="cadastrar" element={<AdicionarPet />} />
-          {/* <Route path="editar" element={<EditarPet/>} />*/}
+          <Route path="editar" element={<EditarPet/>} />
         </Route>
       </Routes>
     </BrowserRouter>

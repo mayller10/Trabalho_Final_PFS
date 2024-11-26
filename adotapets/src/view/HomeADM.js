@@ -34,8 +34,10 @@ const HomeADM = () => {
   };
 
   const handleEdit = (id) => {
-    // Lógica para editar o animal (pode abrir um modal ou redirecionar para uma página de edição)
+    
     console.log(`Editar animal com id: ${id}`);
+    navigate('/adm/editar');
+
   };
 
   if (!objetos) {

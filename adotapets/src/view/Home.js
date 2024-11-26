@@ -60,6 +60,20 @@ const Home = () => {
       imagem: "https://example.com/cocker_spaniel.png"
     },
   ]);
+
+  /* 
+    const [objetos, setObjetos] = useState(null);
+
+  const carregarDados = () => {
+    axios.get('http://localhost:5196/pet').then(resp => {
+      setObjetos(resp.data);
+    }).catch(erro => { console.log(erro) })
+  };
+
+
+
+  
+  */
   
   const [mensagem, setMensagem] = useState("");
   const navigate = useNavigate();

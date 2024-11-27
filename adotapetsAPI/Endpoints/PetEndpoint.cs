@@ -55,6 +55,7 @@ namespace adotapetsAPI.Endpoints
             obj.Nome = objNovo.Nome;
             obj.Raca = objNovo.Raca;
             obj.Sexo = objNovo.Sexo;
+            obj.URL = objNovo.URL;
                         
             db.Pet.Update(obj);
             db.SaveChanges();

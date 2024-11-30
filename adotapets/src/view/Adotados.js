@@ -1,76 +1,25 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Adotados = () => {
-  const [objetos, setObjetos] = useState([
-    {
-      id: 1,
-      nome: "QQ",
-      raça: "Pastor Alemão",
-      sexo: "M",
-      imagem: "https://cobasi.vteximg.com.br/arquivos/ids/728382/pastor-alemao-filhote.png?v=637593663339670000",
-      adotado: true
-    },
-    {
-      id: 2,
-      nome: "Max",
-      raça: "Golden Retriever",
-      sexo: "M",
-      imagem: "https://example.com/golden_retriever.png",
-      adotado: true
-    },
-    {
-      id: 3,
-      nome: "Luna",
-      raça: "Bulldog Francês",
-      sexo: "F",
-      imagem: "https://example.com/bulldog_frances.png",
-      adotado: true
-    },
-    {
-      id: 4,
-      nome: "Bella",
-      raça: "Beagle",
-      sexo: "F",
-      imagem: "https://example.com/beagle.png",
-      adotado: true
-    },
-    {
-      id: 5,
-      nome: "Charlie",
-      raça: "Poodle",
-      sexo: "M",
-      imagem: "https://example.com/poodle.png",
-      adotado: true
-    },
-    {
-      id: 6,
-      nome: "Daisy",
-      raça: "Shih Tzu",
-      sexo: "F",
-      imagem: "https://example.com/shih_tzu.png",
-      adotado: true
-    },
-    {
-      id: 7,
-      nome: "Rocky",
-      raça: "Rottweiler",
-      sexo: "M",
-      imagem: "https://example.com/rottweiler.png",
-      adotado: true
-    },
-    {
-      id: 8,
-      nome: "Molly",
-      raça: "Cocker Spaniel",
-      sexo: "F",
-      imagem: "https://example.com/cocker_spaniel.png",
-      adotado: true
-    },
-  ]);
+  const [objetos, setObjetos] = useState([]);
   
   const [mensagem, setMensagem] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5196/adocao", { withCredentials: true })
+      .then((resp) => {
+        console.log(resp.data);
+        
+        setObjetos(resp.data);
+      })
+      .catch((erro) => {
+        console.log(erro);
+      });
+  }, []);
 
   const handleLogout = () => {
     console.log("Logout realizado");
@@ -79,7 +28,7 @@ const Adotados = () => {
 
   const handleCancelarAdocao = (id) => {
     setObjetos(prevObjetos => 
-      prevObjetos.filter(animal => animal.id !== id) // Remove o animal da lista
+      prevObjetos.filter(animal => animal.id !== id) 
     );
     setMensagem("Adoção cancelada com sucesso!");
   };
@@ -149,11 +98,11 @@ const Adotados = () => {
         <ul className="list-group" style={{ maxWidth: '600px', margin: '0 auto' }}>
           {objetos.map(animal => (
             <li className="list-group-item" key={animal.id} style={{ display: 'flex', alignItems: 'center', backgroundColor: '#333', color: 'yellow' }}>
-              <img src={animal.imagem} alt={animal.nome} style={{ width: '100px', height: 'auto', marginRight: '20px' }} />
+              <img src={animal.pet.url} alt={animal.pet.nome} style={{ width: '100px', height: 'auto', marginRight: '20px' }} />
               <div>
-                <h5 className="mb-1">{animal.nome}</h5>
-                <h6 className="mb-1">Raça: {animal.raça}</h6>
-                <p className="mb-1">Sexo: {animal.sexo}</p>
+                <h5 className="mb-1">{animal.pet.nome}</h5>
+                <h6 className="mb-1">Raça: {animal.pet.raca}</h6>
+                <p className="mb-1">Sexo: {animal.pet.sexo}</p>
                 <button 
                   type="button" 
                   className="btn" 

@@ -1,89 +1,49 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
-  const [objetos, setObjetos] = useState([
-    {
-      id: 1,
-      nome: "QQ",
-      raça: "Pastor Alemão",
-      sexo: "M",
-      imagem: "https://cobasi.vteximg.com.br/arquivos/ids/728382/pastor-alemao-filhote.png?v=637593663339670000"
-    },
-    {
-      id: 2,
-      nome: "Max",
-      raça: "Golden Retriever",
-      sexo: "M",
-      imagem: "https://example.com/golden_retriever.png"
-    },
-    {
-      id: 3,
-      nome: "Luna",
-      raça: "Bulldog Francês",
-      sexo: "F",
-      imagem: "https://example.com/bulldog_frances.png"
-    },
-    {
-      id: 4,
-      nome: "Bella",
-      raça: "Beagle",
-      sexo: "F",
-      imagem: "https://example.com/beagle.png"
-    },
-    {
-      id: 5,
-      nome: "Charlie",
-      raça: "Poodle",
-      sexo: "M",
-      imagem: "https://example.com/poodle.png"
-    },
-    {
-      id: 6,
-      nome: "Daisy",
-      raça: "Shih Tzu",
-      sexo: "F",
-      imagem: "https://example.com/shih_tzu.png"
-    },
-    {
-      id: 7,
-      nome: "Rocky",
-      raça: "Rottweiler",
-      sexo: "M",
-      imagem: "https://example.com/rottweiler.png"
-    },
-    {
-      id: 8,
-      nome: "Molly",
-      raça: "Cocker Spaniel",
-      sexo: "F",
-      imagem: "https://example.com/cocker_spaniel.png"
-    },
-  ]);
+  const [objetos, setObjetos] = useState([]);
+  const idUsuario = localStorage.getItem('usuario-id');
 
-  /* 
-    const [objetos, setObjetos] = useState(null);
-
-  const carregarDados = () => {
-    axios.get('http://localhost:5196/pet').then(resp => {
-      setObjetos(resp.data);
-    }).catch(erro => { console.log(erro) })
-  };
-
-
-
-  
-  */
+  useEffect(() => {
+    axios
+      .get("http://localhost:5196/pet", { withCredentials: true })
+      .then((resp) => {
+        setObjetos(resp.data);
+      })
+      .catch((erro) => {
+        console.log(erro);
+      });
+  }, []);
   
   const [mensagem, setMensagem] = useState("");
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    console.log("Logout realizado");
-    navigate('/');
+  const handleLogout = () => {    
+    axios.get(`http://localhost:5196/logout`, { withCredentials: true });
+    localStorage.removeItem("usuario-nome");
+    localStorage.removeItem("usuario-id");
+    navigate("/");
   };
 
   const handleAdotar = (id) => {
+
+    const animal = objetos.find(animal => 
+      animal.id === id
+    );
+    const adocao = {
+      "pet": {
+        "id": animal.id,
+      },
+      "usuario": {
+        "id": idUsuario,
+      }
+    }
+    axios.post(`http://localhost:5196/adocao`, adocao , { withCredentials: true } ).then(() => {
+      navigate("/usuario/adotados");
+    }).catch(erro => { console.log(erro) });
+
     setObjetos(prevObjetos => 
       prevObjetos.map(animal => 
         animal.id === id ? { ...animal, adotado: true } : animal
@@ -170,10 +130,10 @@ const Home = () => {
                   boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)' 
                 }}
               >
-                <img src={animal.imagem} className="card-img-top" alt={animal.nome} />
+                <img src={animal.url} className="card-img-top" alt={animal.nome} />
                 <div className="card-body">
                   <h5 className="card-title">{animal.nome}</h5>
-                  <h6 className="card-text">Raça: {animal.raça}</h6>
+                  <h6 className="card-text">Raça: {animal.raca}</h6>
                   <p className="card-text">Sexo: {animal.sexo}</p>
                   <div style={{ display: 'flex', justifyContent: 'center' }}>
                     <button 
@@ -187,7 +147,7 @@ const Home = () => {
                         color: 'white' 
                       }} 
                       onClick={() => !animal.adotado && handleAdotar(animal.id)} 
-                      disabled={animal.adotado}
+                      disabled={animal.adotado} 
                     >
                       {animal.adotado ? 'Adotado' : 'Adotar'}
                     </button>

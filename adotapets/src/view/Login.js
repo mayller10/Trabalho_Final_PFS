@@ -10,34 +10,29 @@ const Login = () => {
     });
 
     const navigate = useNavigate();
-    const [falha, setFalha] = useState(null);
-    const { redirecionarPara } = useParams();
-
+    
     const sucessoLogin = (usuario) => {
-        sessionStorage.setItem("usuario-login", usuario.login);
-        console.log(usuario);
-        navigate("/usuario/home");
+        localStorage.setItem("usuario-nome", usuario.nome);
+        localStorage.setItem("usuario-id", usuario.id);
+        localStorage.setItem("usuario-role", usuario.role);
+
+        if(usuario.role == "Cliente")
+            navigate("/usuario/home");
+        else
+            navigate("/adm/home");
     };
     
     const logar = (e) => {
         e.preventDefault();
-        axios.post('http://localhost:5196/login', objeto)
+        axios.post('http://localhost:5196/login', objeto, { withCredentials: true })
             .then(res => {
                 sucessoLogin(res.data);
             })
             .catch(error => {
-                setFalha("Falha ao logar. Verifique suas credenciais.");
+                console.log("Falha ao logar. Verifique suas credenciais.");
             });
     };
 
-    let mensagemFalha = null;
-
-    if (falha) {
-        mensagemFalha = (<div className="alert alert-danger">{falha}</div>);
-        setTimeout(() => {
-            setFalha(null);
-        }, 10000);
-    }
 
     return (
         <div style={{
@@ -58,7 +53,7 @@ const Login = () => {
                 padding: '20px'
             }}>
                 <h1 style={{ textAlign: "center", marginBottom: '20px', color: 'yellow' }}>Acessar página</h1>
-                {mensagemFalha}
+                
                 <div className="card-body">
                     <div className="mb-3">
                         <label htmlFor="staticlogin" className="form-label" style={{ color: 'yellow' }}>Login</label>

@@ -1,84 +1,16 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Adotados = () => {
-  const [objetos, setObjetos] = useState([
-    {
-      id: 1,
-      nome: "QQ",
-      raça: "Pastor Alemão",
-      sexo: "M",
-      imagem: "https://cobasi.vteximg.com.br/arquivos/ids/728382/pastor-alemao-filhote.png?v=637593663339670000",
-      adotado: true,
-      usuario: "João"
-    },
-    {
-      id: 2,
-      nome: "Max",
-      raça: "Golden Retriever",
-      sexo: "M",
-      imagem: "https://example.com/golden_retriever.png",
-      adotado: true,
-      usuario: "Maria"
-    },
-    {
-      id: 3,
-      nome: "Luna",
-      raça: "Bulldog Francês",
-      sexo: "F",
-      imagem: "https://example.com/bulldog_frances.png",
-      adotado: true,
-      usuario: "Carlos"
-    },
-    {
-      id: 4,
-      nome: "Bella",
-      raça: "Beagle",
-      sexo: "F",
-      imagem: "https://example.com/beagle.png",
-      adotado: true,
-      usuario: "Ana"
-    },
-    {
-      id: 5,
-      nome: "Charlie",
-      raça: "Poodle",
-      sexo: "M",
-      imagem: "https://example.com/poodle.png",
-      adotado: true,
-      usuario: "Lucas"
-    },
-    {
-      id: 6,
-      nome: "Daisy",
-      raça: "Shih Tzu",
-      sexo: "F",
-      imagem: "https://example.com/shih_tzu.png",
-      adotado: true,
-      usuario: "Fernanda"
-    },
-    {
-      id: 7,
-      nome: "Rocky",
-      raça: "Rottweiler",
-      sexo: "M",
-      imagem: "https://example.com/rottweiler.png",
-      adotado: true,
-      usuario: "Ricardo"
-    },
-    {
-      id: 8,
-      nome: "Molly",
-      raça: "Cocker Spaniel",
-      sexo: "F",
-      imagem: "https://example.com/cocker_spaniel.png",
-      adotado: true,
-      usuario: "Patrícia"
-    },
-  ]);
+  const [objetos, setObjetos] = useState([]);
   
   const [mensagem, setMensagem] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    
+  }, []);
 
   const handleLogout = () => {
     console.log("Logout realizado");

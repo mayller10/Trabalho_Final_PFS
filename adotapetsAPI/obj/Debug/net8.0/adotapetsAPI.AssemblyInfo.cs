@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("adotapetsAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+359fe1e9bf6ff6f7fa66e7da8d86c3151db5cbb1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+358f97373367f5bf1c1d94c6f993b1e30f624c9d")]
 [assembly: System.Reflection.AssemblyProductAttribute("adotapetsAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("adotapetsAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

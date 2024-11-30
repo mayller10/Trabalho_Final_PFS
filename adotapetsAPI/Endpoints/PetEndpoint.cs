@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using adotapetsAPI.Infra;
 using adotapetsAPI.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace adotapetsAPI.Endpoints
 {
@@ -18,12 +19,12 @@ namespace adotapetsAPI.Endpoints
             app.MapDelete("/pet/{id}", Delete).RequireAuthorization("Admin");
         }
 
-        private static IResult Get(AdocaoContext db)
+        private static IResult Get( [FromServices] AdocaoContext db)
         {
             return TypedResults.Ok(db.Pet.ToList());
         }
 
-        private static IResult GetById(long id, AdocaoContext db)
+        private static IResult GetById(long id, [FromServices] AdocaoContext db)
         {
             var obj = db.Pet.Find(id);
 
@@ -34,7 +35,7 @@ namespace adotapetsAPI.Endpoints
             return TypedResults.Ok(obj);
         }
 
-        private static IResult Post(Pet obj, AdocaoContext db)
+        private static IResult Post(Pet obj, [FromServices] AdocaoContext db)
         {
             db.Pet.Add(obj);
             db.SaveChanges();
@@ -42,7 +43,7 @@ namespace adotapetsAPI.Endpoints
             return TypedResults.Created("", obj);
         }
 
-        private static IResult Put(long id, Pet objNovo, AdocaoContext db)
+        private static IResult Put(long id, Pet objNovo, [FromServices] AdocaoContext db)
         {
             if(id != objNovo.Id)
                 return TypedResults.BadRequest();
@@ -63,7 +64,7 @@ namespace adotapetsAPI.Endpoints
             return TypedResults.NoContent();
         }
 
-        private static IResult Delete(long id, AdocaoContext db)
+        private static IResult Delete(long id, [FromServices] AdocaoContext db)
         {
             var obj = db.Pet.Find(id);
 

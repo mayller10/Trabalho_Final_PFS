@@ -2,6 +2,7 @@ using System;
 using adotapetsAPI.Infra;
 using adotapetsAPI.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 
 namespace adotapetsAPI.Endpoints;
 
@@ -14,17 +15,17 @@ public static class UsuarioEndpoints
         group.MapGet("", Get);
         group.MapGet("/{id}", GetById).RequireAuthorization("AdminOuCliente");
         group.MapPost("/cliente", Post);
-        group.MapPost("/adm", PostAdm).RequireAuthorization("Admin");
+        group.MapPost("/adm", PostAdm);
         group.MapPut("/{id}", Put).RequireAuthorization("AdminOuCliente");
         group.MapDelete("/{id}", Delete).RequireAuthorization("AdminOuCliente");
     }
 
-    private static IResult Get(AdocaoContext db)
+    private static IResult Get( [FromServices] AdocaoContext db)
     {
         return TypedResults.Ok(db.Usuarios.ToList());
     }
 
-    private static IResult GetById(long id, AdocaoContext db)
+    private static IResult GetById(long id, [FromServices] AdocaoContext db)
     {
         var obj = db.Usuarios.Find(id);
 
@@ -35,7 +36,7 @@ public static class UsuarioEndpoints
         return TypedResults.Ok(obj);
     }
 
-    private static IResult Post(Usuario obj, AdocaoContext db, IPasswordHasher<Usuario> hasher)
+    private static IResult Post(Usuario obj, [FromServices] AdocaoContext db, [FromServices] IPasswordHasher<Usuario> hasher)
     {
         obj.Role = "Cliente";
         obj.HashSenha = hasher.HashPassword(obj, obj.HashSenha);
@@ -45,7 +46,7 @@ public static class UsuarioEndpoints
         return TypedResults.Created("", obj);
     }
 
-    private static IResult PostAdm(Usuario obj, AdocaoContext db, IPasswordHasher<Usuario> hasher)
+    private static IResult PostAdm(Usuario obj, [FromServices] AdocaoContext db, [FromServices] IPasswordHasher<Usuario> hasher)
     {
         obj.Role = "Admin";
         obj.HashSenha = hasher.HashPassword(obj, obj.HashSenha);
@@ -55,7 +56,7 @@ public static class UsuarioEndpoints
         return TypedResults.Created("", obj);
     }
 
-    private static IResult Put(long id, Usuario objNovo, AdocaoContext db)
+    private static IResult Put(long id, Usuario objNovo, [FromServices] AdocaoContext db)
     {
         if(id != objNovo.Id)
             return TypedResults.BadRequest();
@@ -71,7 +72,7 @@ public static class UsuarioEndpoints
         return TypedResults.NoContent();
     }
 
-    private static IResult Delete(long id, AdocaoContext db)
+    private static IResult Delete(long id, [FromServices] AdocaoContext db)
     {
         var obj = db.Usuarios.Find(id);
 

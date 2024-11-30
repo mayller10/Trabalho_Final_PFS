@@ -8,13 +8,13 @@ const AdicionarPet = () => {
     nome: "",
     raca: "",
     sexo: "",
-    imagem: "",
+    url: "",
   });
   const [preview, setPreview] = useState(null);
 
   const salvar = (e) => {
     e.preventDefault();
-    axios.post("http://localhost:5196/carros", objeto).then((resp) => {
+    axios.post("http://localhost:5196/pet", objeto, { withCredentials: true }).then((resp) => {
       navigate("/adm/home");
     });
   };
@@ -178,8 +178,8 @@ const AdicionarPet = () => {
                 <input
                   type="text"
                   className="form-control"
-                  value={objeto.imagem}
-                  onChange={(e) => atualizarCampo("imagem", e.target.value)}
+                  value={objeto.url}
+                  onChange={(e) => atualizarCampo("url", e.target.value)}
                   placeholder="Insira a URL da imagem do pet"
                   style={{ fontStyle: "italic" }}
                 />
@@ -219,7 +219,7 @@ const AdicionarPet = () => {
             </div>
             <div className="card-body">
               <img
-                src={preview.imagem}
+                src={preview.url}
                 alt={preview.nome}
                 style={{ width: "100%", borderRadius: "8px" }}
               />

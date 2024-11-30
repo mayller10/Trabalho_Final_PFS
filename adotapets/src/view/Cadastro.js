@@ -52,7 +52,7 @@ const Cadastro = () => {
                         </div>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
-                        <button type="button" className="btn btn-primary" style={{ marginTop: 10 }}>Cadastrar</button>
+                        <button type="button" className="btn btn-primary" style={{ marginTop: 10 }} onClick={cadastrar}>Cadastrar</button>
                     </div>
                 </div>
             </div>

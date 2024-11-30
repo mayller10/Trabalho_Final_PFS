@@ -2,6 +2,7 @@ using System;
 using adotapetsAPI.Infra;
 using adotapetsAPI.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 
 
 namespace adotapetsAPI.Endpoints;
@@ -17,7 +18,7 @@ public static class AdotadoEndpoints
         app.MapDelete("/adocao/{id}", Delete).RequireAuthorization();
     }
 
-    private static IResult Get(AdocaoContext db)
+    private static IResult Get([FromServices] AdocaoContext db)
     {
 
         return TypedResults.Ok(db.Adotado
@@ -26,7 +27,7 @@ public static class AdotadoEndpoints
             .ToList());
     }
 
-    private static IResult GetById(long id, AdocaoContext db)
+    private static IResult GetById(long id, [FromServices] AdocaoContext db)
     {
         var obj = db.Adotado
             .Include(r => r.Pet)
@@ -39,21 +40,23 @@ public static class AdotadoEndpoints
         return TypedResults.Ok(obj);
     }
 
-    private static IResult Post(Adotado obj, AdocaoContext db)
+    private static IResult Post(Adotado obj, [FromServices] AdocaoContext db)
     {
         var TemPet = db.Pet.Find(obj.Pet.Id);
+        var TemUsuario = db.Usuarios.Find(obj.Usuario.Id);
 
         if (TemPet == null)
             return TypedResults.BadRequest();
 
         obj.Pet = TemPet;
+        obj.Usuario = TemUsuario;
         db.Adotado.Add(obj);
         db.SaveChanges();
         
         return TypedResults.Created("", obj);
     }
 
-    private static IResult Put(long id, Adotado objNovo, AdocaoContext db)
+    private static IResult Put(long id, Adotado objNovo, [FromServices] AdocaoContext db)
     {
         if(id != objNovo.Id)
             return TypedResults.BadRequest();
@@ -74,7 +77,7 @@ public static class AdotadoEndpoints
         return TypedResults.NoContent();
     }
 
-    private static IResult Delete(long id, AdocaoContext db)
+    private static IResult Delete(long id, [FromServices] AdocaoContext db)
     {
         var obj = db.Adotado.Find(id);
 

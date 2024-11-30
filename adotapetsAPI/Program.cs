@@ -2,6 +2,15 @@ using adotapetsAPI;
 using adotapetsAPI.Endpoints;
 using adotapetsAPI.Infra;
 using adotapetsAPI.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
+using System.Text;
+
+var root = AppDomain.CurrentDomain.BaseDirectory;
+var dotenv = Path.Combine(root, ".env");
+DotEnv.Load(dotenv);
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +18,51 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddDbContext<AdocaoContext>();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy", builder => {
+        builder.WithOrigins("http://localhost:3000");
+        builder.AllowAnyMethod();
+        builder.AllowAnyHeader();
+        builder.AllowCredentials();
+    });
+});
+
+builder.Services.AddAuthentication(x => 
+{
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(x => 
+{
+    x.SaveToken = true;
+    x.TokenValidationParameters = new TokenValidationParameters
+    {
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("mcakenfaefalkeukyfjefovnostmgvergwergaeinvae")),
+        ValidateIssuer = false,
+        ValidateAudience = false
+    };
+
+    x.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = ctx => 
+        {
+            ctx.Request.Cookies.TryGetValue("accessToken",out var accessToken);
+            if(!string.IsNullOrEmpty(accessToken))
+                ctx.Token = accessToken;
+            return Task.CompletedTask;
+        }
+    };
+});
+
+builder.Services.AddAuthorizationBuilder()
+    .AddPolicy("Admin", policy => policy.RequireRole("Admin"))
+    .AddPolicy("Cliente", policy => policy.RequireRole("Cliente"))
+    .AddPolicy("AdminOuCliente", policy => policy.RequireClaim(ClaimTypes.Role, "Admin", "Cliente"));
+
+builder.Services.AddSingleton<IPasswordHasher<Usuario>, PasswordHasher<Usuario>>();
 
 var app = builder.Build();
 
@@ -21,9 +75,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors("CorsPolicy");
+
 app.AdicionarpetEndpoints();
 app.AdicionaradocaoEndpoints();
-// app.AdicionarLoginEndpoints();
+app.AdicionarLoginEndpoints();
 app.AdicionarUsuariosEndpoints();
 
 app.Run();

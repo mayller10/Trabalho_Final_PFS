@@ -15,7 +15,7 @@ namespace adotapetsAPI.Endpoints
             app.MapGet("/pet", Get).RequireAuthorization();
             app.MapGet("/pet/{id}", GetById).RequireAuthorization();
             app.MapPost("/pet", Post).RequireAuthorization("Admin");
-            app.MapPut("/pet/{id}", Put).RequireAuthorization("Admin");
+            app.MapPut("/pet/{id}", Put).RequireAuthorization("AdminOuCliente");
             app.MapDelete("/pet/{id}", Delete).RequireAuthorization("Admin");
         }
 
@@ -57,6 +57,7 @@ namespace adotapetsAPI.Endpoints
             obj.Raca = objNovo.Raca;
             obj.Sexo = objNovo.Sexo;
             obj.URL = objNovo.URL;
+            obj.Adotado = objNovo.Adotado;
                         
             db.Pet.Update(obj);
             db.SaveChanges();

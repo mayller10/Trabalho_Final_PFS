@@ -33,16 +33,29 @@ const Home = () => {
       animal.id === id
     );
     const adocao = {
-      "pet": {
-        "id": animal.id,
+      pet: {
+        id: animal.id,
+        nome: animal.nome,
+        raca: animal.raca,
+        sexo: animal.sexo,
+        url: animal.url,
+        adotado: true
       },
-      "usuario": {
-        "id": idUsuario,
+      usuario: {
+        id: idUsuario,
       }
     }
     axios.post(`http://localhost:5196/adocao`, adocao , { withCredentials: true } ).then(() => {
       navigate("/usuario/adotados");
     }).catch(erro => { console.log(erro) });
+
+
+    axios.put(`http://localhost:5196/pet/${id}`, {
+      ...animal,
+      adotado: true
+    }, {withCredentials: true}).catch(erro => { console.log(erro);
+    })
+
 
     setObjetos(prevObjetos => 
       prevObjetos.map(animal => 

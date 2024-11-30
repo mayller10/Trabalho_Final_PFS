@@ -3967,11 +3967,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Mayller\\Desktop\\Trabalho_Final_PFS\\adotapetsAPI\\adotapetsAPI.csproj",
+      "projectUniqueName": "C:\\Users\\Mayller\\Desktop\\Trabalho_Final_PFS-1\\adotapetsAPI\\adotapetsAPI.csproj",
       "projectName": "adotapetsAPI",
-      "projectPath": "C:\\Users\\Mayller\\Desktop\\Trabalho_Final_PFS\\adotapetsAPI\\adotapetsAPI.csproj",
+      "projectPath": "C:\\Users\\Mayller\\Desktop\\Trabalho_Final_PFS-1\\adotapetsAPI\\adotapetsAPI.csproj",
       "packagesPath": "C:\\Users\\Mayller\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Mayller\\Desktop\\Trabalho_Final_PFS\\adotapetsAPI\\obj\\",
+      "outputPath": "C:\\Users\\Mayller\\Desktop\\Trabalho_Final_PFS-1\\adotapetsAPI\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Mayller\\AppData\\Roaming\\NuGet\\NuGet.Config"

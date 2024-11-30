@@ -1,5 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+
 import { useNavigate } from "react-router-dom";
 
 const HomeADM = () => {
@@ -26,14 +28,12 @@ const HomeADM = () => {
     navigate("/");
   };
 
-  const handleDelete = (id) => {
-    setObjetos(objetos.filter((animal) => animal.id !== id));
-    setMensagem("Animal excluído com sucesso!");
-  };
-
-  const handleEdit = (id) => {
-    console.log(`Editar animal com id: ${id}`);
-    navigate("/adm/editar");
+  const handleDelete = (e, id) => {
+    e.preventDefault();
+    axios.delete(`http://localhost:5196/pet/${id}`, {withCredentials: true}).then(() => {
+      setObjetos(prevObjetos => prevObjetos.filter(animal => animal.id !== id))
+      setMensagem("Animal excluído com sucesso!");
+    })
   };
 
   if (!objetos) {
@@ -163,7 +163,7 @@ const HomeADM = () => {
                     style={{ display: "flex", justifyContent: "space-between" }}
                   >
                     <button
-                      onClick={() => handleDelete(animal.id)}
+                      onClick={(e) => handleDelete(e, animal.id)}
                       style={{
                         backgroundColor: "red",
                         color: "white",
@@ -174,8 +174,9 @@ const HomeADM = () => {
                     >
                       Excluir
                     </button>
-                    <button
-                      onClick={() => handleEdit(animal.id)}
+                    <Link
+                      to={`/adm/editar/${animal.id}`}
+                      type="button"
                       style={{
                         backgroundColor: "blue",
                         color: "white",
@@ -185,7 +186,7 @@ const HomeADM = () => {
                       }}
                     >
                       Editar
-                    </button>
+                    </Link>
                   </div>
                 </div>
               </div>

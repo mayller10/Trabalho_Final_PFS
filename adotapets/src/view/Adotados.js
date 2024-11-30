@@ -10,7 +10,7 @@ const Adotados = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5196/adocao", { withCredentials: true })
+      .get(`http://localhost:5196/adocao/usuario/${localStorage.getItem('usuario-id')}`, { withCredentials: true })
       .then((resp) => {
         console.log(resp.data);
         
@@ -26,11 +26,18 @@ const Adotados = () => {
     navigate('/');
   };
 
-  const handleCancelarAdocao = (id) => {
-    setObjetos(prevObjetos => 
-      prevObjetos.filter(animal => animal.id !== id) 
-    );
-    setMensagem("Adoção cancelada com sucesso!");
+  const handleCancelarAdocao = (idAdocao) => {
+    const adocaoS = objetos.find(adocao => adocao.id === idAdocao);
+
+    axios.delete(`http://localhost:5196/adocao/${idAdocao}`, {withCredentials: true}).then(() => {
+      axios.put(`http://localhost:5196/pet/${adocaoS.pet.id}`, {
+        ...adocaoS.pet,
+        adotado: false
+      }, {withCredentials: true});
+      setMensagem("Adoção cancelada com sucesso!");
+      navigate("/usuario/home");
+
+    })
   };
 
   return (

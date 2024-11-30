@@ -25,7 +25,7 @@ function App() {
           <Route path="home" element={<HomeADM />} />
           <Route path="adotados" element={<AdotadosADM />} />
           <Route path="cadastrar" element={<AdicionarPet />} />
-          <Route path="editar" element={<EditarPet/>} />
+          <Route path="editar/:id" element={<EditarPet/>} />
         </Route>
       </Routes>
     </BrowserRouter>

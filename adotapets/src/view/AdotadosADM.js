@@ -9,7 +9,10 @@ const Adotados = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    
+    axios.get('http://localhost:5196/adocao', {withCredentials: true}).then(resp => {
+      setObjetos(resp.data);
+    }).catch(erro => {console.log(erro);
+    })
   }, []);
 
   const handleLogout = () => {
@@ -17,11 +20,18 @@ const Adotados = () => {
     navigate('/');
   };
 
-  const handleCancelarAdocao = (id) => {
-    setObjetos(prevObjetos => 
-      prevObjetos.filter(animal => animal.id !== id)
-    );
-    setMensagem("Adoção cancelada com sucesso!");
+  const handleCancelarAdocao = (idAdocao) => {
+    const adocaoS = objetos.find(adocao => adocao.id === idAdocao);
+
+    axios.delete(`http://localhost:5196/adocao/${idAdocao}`, {withCredentials: true}).then(() => {
+      axios.put(`http://localhost:5196/pet/${adocaoS.pet.id}`, {
+        ...adocaoS.pet,
+        adotado: false
+      }, {withCredentials: true});
+    }).then(() => {
+      setObjetos(objetos.filter(adocao => adocao.id !== idAdocao));
+      setMensagem("Adoção cancelada com sucesso!");
+    })
   };
 
   return (
@@ -89,12 +99,12 @@ const Adotados = () => {
         <ul className="list-group" style={{ maxWidth: '600px', margin: '0 auto' }}>
           {objetos.map(animal => (
             <li className="list-group-item" key={animal.id} style={{ display: 'flex', alignItems: 'center', backgroundColor: '#333', color: 'yellow' }}>
-              <img src={animal.imagem} alt={animal.nome} style={{ width: '100px', height: 'auto', marginRight: '20px' }} />
+              <img src={animal.pet.url} alt={animal.nome} style={{ width: '100px', height: 'auto', marginRight: '20px' }} />
               <div>
-                <h5 className="mb-1">{animal.nome}</h5>
-                <h6 className="mb-1">Raça: {animal.raça}</h6>
-                <p className="mb-1">Sexo: {animal.sexo}</p>
-                <p className="mb-1">Adotado por: {animal.usuario}</p>
+                <h5 className="mb-1">{animal.pet.nome}</h5>
+                <h6 className="mb-1">Raça: {animal.pet.raça}</h6>
+                <p className="mb-1">Sexo: {animal.pet.sexo}</p>
+                <p className="mb-1">Adotado por: {animal.usuario.nome}</p>
                 <button 
                   type="button" 
                   className="btn" 

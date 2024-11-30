@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "KjMCU1nmoIY=",
+  "dgSpecHash": "rEGAJJ9GzMY=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Mayller\\Desktop\\Trabalho_Final_PFS\\adotapetsAPI\\adotapetsAPI.csproj",
+  "projectFilePath": "C:\\Users\\Mayller\\Desktop\\Trabalho_Final_PFS-1\\adotapetsAPI\\adotapetsAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Mayller\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\Mayller\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\8.0.0\\microsoft.aspnetcore.authentication.jwtbearer.8.0.0.nupkg.sha512",

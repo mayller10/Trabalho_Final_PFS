@@ -12,6 +12,7 @@ namespace adotapetsAPI.Models
         public string Raca { get; set; } = null!;
         public char Sexo { get; set; }        
         public string URL { get; set; } = string.Empty;
+        public bool Adotado { get; set; }
 
     }
     

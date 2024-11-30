@@ -1,36 +1,42 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import React, { useEffect, useState } from "react"
+import { useNavigate, useParams } from "react-router-dom";
 
 const EditarPet = () => {
   const [pet, setPet] = useState({
-    id: 1,
-    nome: "QQ",
-    raça: "Pastor Alemão",
-    sexo: "M",
-    imagem: "https://cobasi.vteximg.com.br/arquivos/ids/728382/pastor-alemao-filhote.png?v=637593663339670000",
-    adotado: true,
-    usuario: "João"
+    id: "",
+    nome: "",
+    raca: "",
+    sexo: "",
+    url: "",
   });
 
   const [mensagem, setMensagem] = useState("");
   const navigate = useNavigate();
+  const {id} = useParams();
+
+  useEffect(() => {
+    axios.get(`http://localhost:5196/pet/${id}`, {withCredentials: true }).then(resp => {
+      setPet(resp.data);})
+  }, [id])
 
   const handleLogout = () => {
     console.log("Logout realizado");
     navigate('/');
   };
 
-  const handleSalvarInformacoes = () => {
-    
-    setMensagem("Informações salvas com sucesso!");
+  const handleSalvarInformacoes = (e) => {
+    e.preventDefault();
+    axios.put(`http://localhost:5196/pet/${id}`, pet, { withCredentials: true }).then(() => {
+      setMensagem("Informações salvas com sucesso!");
+      navigate('/adm/home');
+    })
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setPet(prevPet => ({
-      ...prevPet,
-      [name]: value
-    }));
+  const handleChange = (nome, valor) => {
+    let objNovo = { ...pet };
+    objNovo[nome] = valor;
+    setPet(objNovo);
   };
 
   return (
@@ -87,16 +93,27 @@ const EditarPet = () => {
           opacity: '0.9' 
         }}
       >
-        <img src={pet.imagem} alt={pet.nome} style={{ width: '100%', height: 'auto', borderRadius: '10px' }} />
+        <img src={pet.url} alt={pet.nome} style={{ width: '100%', height: 'auto', borderRadius: '10px' }} />
         
+        <h5 className="mb-1">
+          Url: 
+          <input 
+            type="text" 
+            name="nome" 
+            value={pet.url} 
+            onChange={e => handleChange('url', e.target.value)}
+            style={{ backgroundColor: 'white', color: 'black', border: 'none', width: '100%' }} 
+          />
+        </h5>
+
         <h5 className="mb-1">
           Nome: 
           <input 
             type="text" 
             name="nome" 
             value={pet.nome} 
-            onChange={handleChange} 
-            style={{ backgroundColor: '#333', color: 'yellow', border: 'none', width: '100%' }} 
+            onChange={e => handleChange('nome', e.target.value)}
+            style={{ backgroundColor: 'white', color: 'black', border: 'none', width: '100%' }} 
           />
         </h5>
         
@@ -105,9 +122,9 @@ const EditarPet = () => {
           <input 
             type="text" 
             name="raça" 
-            value={pet.raça} 
-            onChange={handleChange} 
-            style={{ backgroundColor: '#333', color: 'yellow', border: 'none', width: '100%' }} 
+            value={pet.raca} 
+            onChange={e => handleChange('raca', e.target.value)} 
+            style={{ backgroundColor: 'white', color: 'black', border: 'none', width: '100%' }} 
           />
         </h6>
         
@@ -117,8 +134,8 @@ const EditarPet = () => {
             type="text" 
             name="sexo" 
             value={pet.sexo} 
-            onChange={handleChange} 
-            style={{ backgroundColor: '#333', color: 'yellow', border: 'none', width: '100%' }} 
+            onChange={e => handleChange('sexo', e.target.value)}
+            style={{ backgroundColor: 'white', color: 'black', border: 'none', width: '100%' }} 
           />
         </p>
         
@@ -134,7 +151,7 @@ const EditarPet = () => {
               borderRadius: '5px',
               cursor: 'pointer' 
             }} 
-            onClick={handleSalvarInformacoes} 
+            onClick={e => handleSalvarInformacoes(e)} 
           >
             Salvar Informações
           </button>
